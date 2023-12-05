@@ -8,7 +8,7 @@
 #include <TimeLib.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
-#define LINE_TOKEN "Your Token"
+#define LINE_TOKEN "LhSJY6MAXOXW9IxWxLkGTULqRvDk2n4idBV7a5ZDogM"
 
 TridentTD_LineNotify Line(LINE_TOKEN);
 WiFiClientSecure client;
@@ -57,8 +57,8 @@ char keys[ROWS][COLS] = {
   {'7','8','9','C'},
   {'*','0','#','D'}
 };
-byte rowPins[ROWS] = {11, 10, 9, 8};
-byte colPins[COLS] = {7, 6, 5, 4};
+byte rowPins[ROWS] = {0, 14, 12, 13};
+byte colPins[COLS] = {15, 6, 5, 4};
 
 //init keyboard
 Adafruit_Keypad customKeypad = Adafruit_Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS);
@@ -119,7 +119,7 @@ void setup()
   /**
    * Ultrasonic sensor
    */
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
