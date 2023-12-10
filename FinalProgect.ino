@@ -13,13 +13,13 @@
 TridentTD_LineNotify Line(LINE_TOKEN);
 WiFiClientSecure client;
 
-char SSID[] = "ICMNLAB";              // WiFi SSID
+char SSID[] = "ICMNLAB2";              // WiFi SSID
 char PASSWORD[] = "ndhuicmn@D307";    // WiFi Password
 
 /**
- * MySQL
+ * MySQL setting
  */
-IPAddress server_addr(192,168,50,188);  
+IPAddress server_addr(192,168,51,251);  
 char user[] = "root";
 char db_password[] = "611221220";
 MySQL_Connection conn((Client *)&client);
@@ -57,8 +57,8 @@ char keys[ROWS][COLS] = {
   {'7','8','9','C'},
   {'*','0','#','D'}
 };
-byte rowPins[ROWS] = {0, 14, 12, 13};
-byte colPins[COLS] = {15, 6, 5, 4};
+byte rowPins[ROWS] = {11, 10, 9, 8};
+byte colPins[COLS] = {7, 6, 5, 4};
 
 //init keyboard
 Adafruit_Keypad customKeypad = Adafruit_Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS);
@@ -119,7 +119,7 @@ void setup()
   /**
    * Ultrasonic sensor
    */
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
@@ -132,19 +132,20 @@ void setup()
   /**
    * Connect to AP
    */
-  Serial.print("Connecting Wifi: ");
-  Serial.println(SSID);
+ Serial.begin(9600);
+  
+  WiFi.mode(WIFI_STA);
   WiFi.begin(SSID, PASSWORD);
-  while (WiFi.status() != WL_CONNECTED) 
-  {
-    Serial.print(".");
+  
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.print(SSID);
+  while (WiFi.status() != WL_CONNECTED) {
     delay(500);
+    Serial.print(".");
   }
-  Serial.println("");
+
   Serial.println("WiFi connected");
-  Serial.println("IP address: ");
-  IPAddress ip = WiFi.localIP();
-  Serial.println(ip);
   
   // Connect to MySQL
   Serial.println("Connecting to MySQL...");
