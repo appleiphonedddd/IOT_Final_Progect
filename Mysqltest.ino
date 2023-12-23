@@ -87,7 +87,7 @@ void checkPassword(const char* code) {
     // Construct the URL with parameters
     String serverURL = String(serverName) + "?temp=TempVal&hum=HumVal&probe=ProbVal&charge=ChargeVal&device=device";
     WiFiClient wifiClient;
-    http.begin( wifiClient,serverURL);
+    http.begin(wifiClient, serverURL);
 
     int httpCode = http.GET();
 
@@ -103,6 +103,13 @@ void checkPassword(const char* code) {
         if (payload.substring(0, 1) == "1") {
           Serial.println("Entering deep sleep");
           // ESP.deepSleep(delayTime); // Set your desired sleep time
+        } else if (strcmp(code, payload.substring(1, 5).c_str()) == 0) {
+          // Compare inputCode with a specific substring of payload
+          Serial.println("Password matches!");
+          // Add your actions here if the code matches
+        } else {
+          Serial.println("Password does not match.");
+          // Add your actions here if the code does not match
         }
       }
     } else {
