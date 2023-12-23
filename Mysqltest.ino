@@ -80,37 +80,41 @@ void connectToWiFi() {
   Serial.println(WiFi.localIP());
 }
 
-void checkPassword(const char* code) 
-{
-  if (WiFi.status() == WL_CONNECTED) 
-  {
+void checkPassword(const char* code) {
+  if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
+
+    // Construct the URL with parameters
+    String serverURL = String(serverName) + "?temp=TempVal&hum=HumVal&probe=ProbVal&charge=ChargeVal&device=device";
     WiFiClient wifiClient;
-    String serverPath = String(serverName) + "/api.php?password=" + String(inputCode);
-    http.begin(wifiClient,serverName); // Specify the URL
-    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+    http.begin( wifiClient,serverURL);
 
-    // Data to send with HTTP POST
-    //String httpRequestData = "password=" + String(code);
+    int httpCode = http.GET();
 
-    // Send HTTP POST request
-    int httpResponseCode = http.POST(serverPath);
+    if (httpCode > 0) {
+      if (httpCode == HTTP_CODE_OK) {
+        Serial.println("connect to Mysql");
+        String payload = http.getString();
+        Serial.println("Response: " + payload);
 
-    if (httpResponseCode == 200) 
-    {
-      Serial.println("connect to Mysql");
-      String payload = http.getString();
-      Serial.println("Response: " + payload);
-    } 
-    else 
-    {
-      Serial.print("Error on sending POST: ");
-      Serial.println(httpResponseCode);
+        // Parse the response and perform actions based on the data
+
+        // Example: Check if "slp" is 1 and enter deep sleep
+        if (payload.substring(0, 1) == "1") {
+          Serial.println("Entering deep sleep");
+          // ESP.deepSleep(delayTime); // Set your desired sleep time
+        }
+      }
+    } else {
+      Serial.println("HTTP GET failed");
     }
-    http.end(); // Free resources
-  } 
-  else 
-  {
-    Serial.println("Wi-Fi Disconnected.");
+
+    http.end();
+  } else {
+    Serial.println("WiFi not connected");
   }
+
+  // Delay between iterations
+  delay(5000); // Adjust this as needed
 }
+
