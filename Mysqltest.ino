@@ -1,70 +1,116 @@
-/*#include <MySQL_Connection.h>
-#include <MySQL_Cursor.h>
 #include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+#include <Adafruit_Keypad.h>
 
-char user[] = "root";
-char password[] = "611221220";
-WiFiClient client;
-MySQL_Connection conn(&client);
+// Wi-Fi Credentials
+const char* ssid = "ICMNLAB"; // Replace with your actual SSID
+const char* password = "ndhuicmn@D307"; // Replace with your actual Wi-Fi password
+
+// MySql Info
+const char* serverName = "https://134.208.2.206:8147"; // Replace with your actual server API URL
+char user[]         = "root";
+char Password[]     = "611221220";
+
+char database[] = "write";
+char table[]    = "yyyy";
+
+// Keyboard setup
+const byte ROWS = 4; // Four rows
+const byte COLS = 4; // Four columns
+char keys[ROWS][COLS] = {
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'}
+};
+byte rowPins[ROWS] = {16, 5, 4, 0}; // Connect to the row pinouts of the keypad
+byte colPins[COLS] = {2, 14, 12, 13}; // Connect to the column pinouts of the keypad
+Adafruit_Keypad customKeypad = Adafruit_Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+
+char inputCode[16]; // Array to store the entered code
+int inputIndex = 0; // Index for the position in the inputCode
 
 void setup() {
-  Serial.begin(115200);
-  WiFi.begin("ICMNLAB2", "ndhuicmn@D307");
+  Serial.begin(9600);
+  connectToWiFi();
+  customKeypad.begin();
+  Serial.println("KeyBoard init finish");
+}
 
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
-  }
+void loop() 
+{
+  customKeypad.tick();
 
-  //IPAddress serverIP(192, 168, 51, 251); // 将字符串 IP 地址转换为 IPAddress 对象
-
-  if (conn.connect("192.168.51.251", 3306, "root", "611221220")) 
+  // Handle keypad events
+  while (customKeypad.available()) 
   {
-    Serial.println("Connected to MySQL server.");
-  } else {
-    Serial.println("Connection failed.");
+    keypadEvent e = customKeypad.read();
+    
+    if (e.bit.EVENT == KEY_JUST_PRESSED)
+    {
+      char key = (char)e.bit.KEY;
+      
+      if (key == '#') 
+      { // Use '#' as enter key
+        inputCode[inputIndex] = '\0'; // Null-terminate the string
+        checkPassword(inputCode);
+        inputIndex = 0; // Reset the index
+      } 
+      
+      else if (inputIndex < sizeof(inputCode) - 1) 
+      { // Prevent buffer overflow
+        inputCode[inputIndex++] = key; // Add key to code
+      }
+    }
   }
 }
 
-void loop() {
-  // 在这里执行您的 MySQL 查询和操作
-}*/
-
-#include <MySQL_Connection.h>
-#include <MySQL_Cursor.h>
-#include <ESP8266WiFi.h>
-
-const char* ssid = "ICMNLAB2";
-const char* password = "ndhuicmn@D307";
-const char* host = "192.168.51.251";
-const char* user = "root";
-const char* password_mysql = "611221220";
-const char* database = "icmn_lock";
-
-WiFiClient client;
-MySQL_Connection conn((Client *)&client);
-
-void setup() {
-  Serial.begin(115200);
+void connectToWiFi() {
+  Serial.print("Connecting to Wi-Fi");
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
+  
+  while (WiFi.status() != WL_CONNECTED) 
+  {
+    delay(500);
+    Serial.print(".");
   }
   
-  Serial.println("Connected to WiFi");
-  
-  Serial.println("Connecting to MySQL");
-
-  IPAddress serverIp(192, 168, 51, 251); // 替换为你的 MySQL 服务器的 IP 地址
-
-  if (conn.connect(serverIp, 3306, "root", "611221220")) {
-    Serial.println("Connected to MySQL");
-  } else {
-    Serial.println("Connection failed");
-  }
+  Serial.println("\nWi-Fi Connected.");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
 }
 
-void loop() {
-  // 程序主循环
+void checkPassword(const char* code) 
+{
+  if (WiFi.status() == WL_CONNECTED) 
+  {
+    HTTPClient http;
+    WiFiClient wifiClient;
+    String serverPath = String(serverName) + "/api.php?password=" + String(inputCode);
+    http.begin(wifiClient,serverName); // Specify the URL
+    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Data to send with HTTP POST
+    //String httpRequestData = "password=" + String(code);
+
+    // Send HTTP POST request
+    int httpResponseCode = http.POST(serverPath);
+
+    if (httpResponseCode == 200) 
+    {
+      Serial.println("connect to Mysql");
+      String payload = http.getString();
+      Serial.println("Response: " + payload);
+    } 
+    else 
+    {
+      Serial.print("Error on sending POST: ");
+      Serial.println(httpResponseCode);
+    }
+    http.end(); // Free resources
+  } 
+  else 
+  {
+    Serial.println("Wi-Fi Disconnected.");
+  }
 }
