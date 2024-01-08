@@ -45,11 +45,9 @@ pip install -r requirements.txt
 
 ```
 filetree 
-├── Mall_Customers.csv
-├── Mall_Customers.ipynb
-├── my.csv
+├── esp8266final.ino
 ├── README.md
-└── requirements.txt
+└── SCANNER_arduino.ino
 ```
 
 ### Deployment
