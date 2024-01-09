@@ -9,7 +9,7 @@
   - [Contents](#contents)
     - [Getting Started](#getting-started)
           - [Requirements](#requirements)
-          - [**Installation**](#installation)
+          - [Installation](#installation)
     - [Directory Structure](#directory-structure)
     - [Deployment](#deployment)
     - [Frameworks Used](#frameworks-used)
@@ -29,7 +29,7 @@
 7. MySQL
 8. LCD
 
-###### **Installation**
+###### Installation
 
 1. Clone the repo and enter repo folder
 
