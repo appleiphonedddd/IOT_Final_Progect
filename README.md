@@ -5,13 +5,15 @@
 
 ## Contents
 
-- [Getting_Started](#GettingStarted)
-  - [Requirements](#Requirements)
-  - [Installation](#Installation)
-- [Directory Structure](#Directory-Structure)
-- [Deployment](#Deployment)
-- [Frameworks Used](#Frameworks-Used)
-- [Author](#Author)
+- [NDHU\_IOT\_Final\_Project\_2023](#ndhu_iot_final_project_2023)
+  - [Contents](#contents)
+    - [Getting Started](#getting-started)
+          - [Requirements](#requirements)
+          - [**Installation**](#installation)
+    - [Directory Structure](#directory-structure)
+    - [Deployment](#deployment)
+    - [Frameworks Used](#frameworks-used)
+    - [Author](#author)
 
 
 ### Getting Started
@@ -25,6 +27,7 @@
 5. 4 X 4 Keypad
 6. Barcode scanner
 7. MySQL
+8. LCD
 
 ###### **Installation**
 
@@ -35,11 +38,7 @@ git clone https://github.com/appleiphonedddd/NDHU_IOT_Final_Project_2023.git
 cd NDHU_IOT_Final_Project_2023
 ```
 
-2. Install Python package
-
-```sh
-pip install -r requirements.txt
-```
+2. Install library in Arduino IDE
 
 ### Directory Structure
 
