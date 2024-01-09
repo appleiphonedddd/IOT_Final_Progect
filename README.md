@@ -1,11 +1,11 @@
-# NDHU_IOT_Final_Project_2023
+# NDHU_IOT_Project
 
 
-`NDHU_IOT_Final_Project_2023` project belongs to the Intelligent IoT technologies and applications at National Dong Hwa University. The purpose of this project is by scanning the barcode scanner, and if the authentication is correct, the relay can be enabled and disabled.
+`NDHU_IOT` project belongs to the Intelligent IoT technologies and applications at National Dong Hwa University. The purpose of this project is by scanning the barcode scanner, and if the authentication is correct, the relay can be enabled and disabled.
 
 ## Contents
 
-- [NDHU\_IOT\_Final\_Project\_2023](#ndhu_iot_final_project_2023)
+- [NDHU\_IOT\_Project](#ndhu_iot_project)
   - [Contents](#contents)
     - [Getting Started](#getting-started)
           - [Requirements](#requirements)
