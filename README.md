@@ -44,9 +44,11 @@ cd NDHU_IOT_Final_Project_2023
 
 ```
 filetree 
-├── esp8266final.ino
 ├── README.md
-└── SCANNER_arduino.ino
+├── System
+│   ├── esp8266final.ino
+│   └── SCANNER_arduino.ino
+└── Web
 ```
 
 ### Deployment
