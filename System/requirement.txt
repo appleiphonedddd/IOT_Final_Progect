@@ -1,2 +1,4 @@
 Keypad
 LiquidCrystal_I2C
+Wire
+SoftwareSerial

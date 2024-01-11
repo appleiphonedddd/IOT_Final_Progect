@@ -27,7 +27,10 @@
 5. 4 X 4 Keypad
 6. Barcode scanner
 7. MySQL
-8. LCD
+8. phpMyAdmin
+9. LCD
+10. Windows 10
+11. PHP
 
 ###### Installation
 
@@ -35,10 +38,13 @@
 
 ```sh
 git clone https://github.com/appleiphonedddd/NDHU_IOT_Final_Project_2023.git
-cd NDHU_IOT_Final_Project_2023
+cd NDHU_IOT_Final_Project_2023/System
 ```
 
-2. Install library in Arduino IDE
+2. Install `requirement.txt`library in Arduino IDE
+
+3. Install [Apache](https://www.apachelounge.com/download/) and [phpMyAdmin](https://www.phpmyadmin.net/downloads/)and [MySQL](https://dev.mysql.com/downloads/installer/) and [PHP](https://www.php.net/releases/index.php) in Windows 10
+
 
 ### Directory Structure
 
@@ -46,21 +52,40 @@ cd NDHU_IOT_Final_Project_2023
 filetree 
 ├── README.md
 ├── System
-│   ├── esp8266final.ino
-│   └── SCANNER_arduino.ino
+│   ├── esp8266final.ino
+│   ├── requirement.txt
+│   └── SCANNER_arduino.ino
 └── Web
+    ├── check.php
+    ├── config.php
+    ├── index.php
+    ├── personlogin.php
+    └── s_member.php
 ```
 
 ### Deployment
 
-1. Execute `.ino` on Arduino IDE
+1. Enter Apache24 dictionary then check Apache service is start
+```sh
+cd C:\Apache24\bin
+net start Apache2.4
+```
+
+2. Add php related modules and settings to httpd.conf
+
+3. Modify the path pointed by localhost to the place where you want to store the website
+
+4. Add personal information in MySQL by phpMyAdmin
+
+5. Execute `.ino` on Arduino IDE
 
 
 ### Frameworks Used
 
-- [Arduino](https://www.arduino.cc/)
 - [MySQL](https://www.mysql.com/)
 - [phpMyAdmin](https://www.phpmyadmin.net/)
+- [Apache](https://httpd.apache.org/)
+- [PHP](https://www.php.net/)
 
 ### Author
 
